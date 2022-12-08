@@ -3,25 +3,47 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import numpy as np
 
+# url 확보
+
+url_list=[("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=49&group_no=5&page={}&order=S11&view_size=20",9), # 현대 그랜저
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=49&group_no=21&page={}&order=S11&view_size=20",6), # 현대 쏘나타
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=49&group_no=22&page={}&order=S11&view_size=20",6),# 현대 아반떼
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=49&group_no=25&page={}&order=S11&view_size=20",3), #현대 에쿠스 
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=49&group_no=17&page={}&order=S11&view_size=20",6), #현대 스타렉스
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=49&group_no=30&page={}&order=S11&view_size=20",5), # 현대 제네시스
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=3&group_no=45&page={}&order=S11&view_size=20",4), # 기아 K7
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=3&group_no=44&page={}&order=S11&view_size=20",5), # 기아 k5
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=3&group_no=76&page={}&order=S11&view_size=20",11),# 기아 카니발
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=3&group_no=50&page={}&order=S11&view_size=20",5), # 기아 레이 
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=1010&group_no=893&page={}&order=S11&view_size=20",4), # 제네시스 g80
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=1010&group_no=958&page={}&order=S11&view_size=20",3),# 제네시스 g90
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=8&group_no=83&page={}&order=S11&view_size=20",3), # 쉐보레 스파크
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=8&group_no=82&page={}&order=S11&view_size=20",3), # 쉐보레 말리부
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=26&group_no=136&page={}&order=S11&view_size=20",3), # 르노삼성 sm5
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=26&group_no=877&page={}&order=S11&view_size=20",2),# 르노삼성 sm6 
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=31&group_no=148&page={}&order=S11&view_size=20",4),# 쌍용 코란도
+("https://www.bobaedream.co.kr/mycar/mycar_list.php?gubun=K&maker_no=31&group_no=140&page={}&order=S11&view_size=20",3)] # 쌍용 렉스턴
+
+urls=[]
+for i in url_list:
+    pagenum=i[1]
+    for j in range(1, pagenum+1):
+        url=i[0].format(str(j))
+        urls.append(url)
+
 # beautifulsoup 객체를 불러오는 함수
 
 def get_soup(url):
-    res = requests.get(url, verify=False)
+    res = requests.get(url)
     res.raise_for_status()
-    requests.adapters.DEFAULT_RETRIES = 10
     soup = BeautifulSoup(res.text,"lxml")
     return soup
 
 cols = ['이름','가격', '신차대비', '연식', '주행거리', '연료', '배기량', '색상', '보증정보', '엔진형식', '연비', '구동방식', '중량', '최대토크',
 "보험이력등록","소유자변경","전손","침수전손","침수분손","도난","내차피해(횟수)","내차피해(가격)","타차가해(횟수)","타차피해(가격)"]
 df_cars= []
-pagenum = 100
-for i in range(1, pagenum+1) :
-    url = "http://www.bobaedream.co.kr/cyber/CyberCar.php?refer_page=%2Fcyber%2FCyberCar.php&gubun=K&order=S11&view_size=50&search_cat=C3&search_cat_gubun=s0&search_field=car_name&view_stat=0&page="+str(i)
-    # res=requests.get(url, verify=False)
-    # res.raise_for_status()
-    # requests.adapters.DEFAULT_RETRIES = 10
-    # soup=BeautifulSoup(res.text,"lxml")
+for i, url in enumerate(urls) :
+    print(f'{i+1} page url 주소' + url)
 
     # soup 객체 호출 
     soup = get_soup(url)
@@ -34,16 +56,13 @@ for i in range(1, pagenum+1) :
         link = "https://www.bobaedream.co.kr" + car.a["href"]
         # 세부 페이지 soup 호출
         soup_detail = get_soup(link)
-        # try:
-        #   res2=requests.get(link, verify=False)
-        #   res2.raise_for_status()
-        #   requests.adapters.DEFAULT_RETRIES = 10
-        #   soup_detail = BeautifulSoup(res2.text, "lxml")
-        # except requests.exceptions.ConnectionError:
-        #   res2.status_code = "Connection refused"
-       
+
         # 차량 이름과 가격 
-        name=soup_detail.find("h3",{"class":"tit"}).get_text()
+        try :
+          name=soup_detail.find("h3",{"class":"tit"}).get_text()
+        except :
+          print("차량없음")
+          continue
         price = soup_detail.find("span",{"class":"price"}).get_text()
 
         # 신차 가격 비 구하기(준비중인 경우 가격비 ''으로 설정)
@@ -102,9 +121,9 @@ for i in range(1, pagenum+1) :
         df_cars.append(temp)
 
     # 1 page 당 임시적으로 dataframe 생성 후 저장
-    df_tmp = pd.DataFrame(data=df_cars, columns=cols)
-    df_tmp.to_csv(f'{i}_tmp_cars.csv')
-    print(f'{i} page complete')
+    # df_tmp = pd.DataFrame(data=df_cars, columns=cols)
+    # df_tmp.to_csv(f'{i}_tmp_cars.csv')
+    print(f'{i+1} page 완료')
 
 # 결과 저장
 df_total=pd.DataFrame(data=df_cars,columns=cols) 
