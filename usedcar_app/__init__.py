@@ -1,18 +1,28 @@
 from flask import Flask
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
-def create_app():
+db = SQLAlchemy()
+migrate = Migrate()
+
+def create_app(config=None):
 
     app = Flask(__name__)
 
-    # @app.route('/')
-    # def hello():
-    #     return "Hello"
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///used_car.sqlite3'
+
+    if config is not None:
+        app.config.update(config)
+
+    db.init_app(app)
+    migrate.init_app(app, db)
     
     from usedcar_app.views.main_page import main_bp
     from usedcar_app.views.dash_page import dash_bp
    
     app.register_blueprint(main_bp)
-    app.register_blueprint(dash_bp, url_prefix='/dash')
+    app.register_blueprint(dash_bp, url_prefix='/sub')
 
     return app
     
