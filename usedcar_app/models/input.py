@@ -2,7 +2,6 @@ from usedcar_app import db
 
 class Input(db.Model):
     __tablename__ = 'input'
-
     id = db.Column(db.Integer, primary_key=True)
     year = db.Column(db.Integer, nullable=False)
     km = db.Column(db.Integer, nullable=False)

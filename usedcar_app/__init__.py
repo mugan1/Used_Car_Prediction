@@ -9,10 +9,13 @@ migrate = Migrate()
 def create_app(config=None):
 
     app = Flask(__name__)
-
+    
     # db 생성
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///used_car.sqlite3'
+
+    # flash를 위한 secret key 생성
+    app.config["SECRET_KEY"] = "ABCD"
 
     if config is not None:
         app.config.update(config)
@@ -32,4 +35,5 @@ def create_app(config=None):
     
 if __name__ == "__main__":
     app = create_app()
+    
     app.run(debug=True)
