@@ -14,6 +14,7 @@ class Input(db.Model):
     factory = db.Column(db.Integer, nullable=False)
     horse = db.Column(db.Float, nullable=False)
     guarantee = db.Column(db.Float, nullable=False)
-    
+    price = db.Column(db.Integer)
+
     def __repr__(self):
         return f"Input {self.id}"
