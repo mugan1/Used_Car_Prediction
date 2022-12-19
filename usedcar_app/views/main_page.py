@@ -62,7 +62,7 @@ def input() :
         feature_list = [order_list, s_features]
 
         # 사용자들의 input data price 호출 -> 평균값 계산 
-        user_price = Input.query.filter(Input.price).all()
+        user_price = Input.query.filter().all()
         mean_price = sum([u.price for u in user_price])//len([u.price for u in user_price])
         price_list = [price, mean_price, format_price]
 
@@ -84,17 +84,17 @@ def input() :
 
 # csv 파일을 database에 넣기 위한 임시 코드 
 
-# @main_bp.route('/import')
-# def tmp() :
-#     CSV_FILEPATH = 'usedcar_app/data/cars.csv'
-#     with open(CSV_FILEPATH, newline='') as csvfile:
-#         csv_file = DictReader(csvfile)
-#         for row in csv_file:
-#             car = Car(*row.values())
-#             db.session.add(car)
-#             db.session.commit()
-#     db.session.close()
-#     return "hi"
+@main_bp.route('/import')
+def tmp() :
+    CSV_FILEPATH = 'usedcar_app/data/cars.csv'
+    with open(CSV_FILEPATH, newline='') as csvfile:
+        csv_file = DictReader(csvfile)
+        for row in csv_file:
+            car = Car(*row.values())
+            db.session.add(car)
+            db.session.commit()
+    db.session.close()
+    return "hi"
 
 
 

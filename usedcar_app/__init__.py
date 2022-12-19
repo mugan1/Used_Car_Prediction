@@ -2,17 +2,31 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 import joblib
+from dotenv import load_dotenv
+from sqlalchemy import MetaData
+import os
+import config
 
+load_dotenv()
 db = SQLAlchemy()
 migrate = Migrate()
+DATABASE_URI = os.getenv("DATABASE_URI")
 
 def create_app(config=None):
 
     app = Flask(__name__)
     
     # db 생성
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///used_car.sqlite3'
+
+    # app 배포시 
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    
+    # 배포하지 않을때 
+    # if app.config["ENV"] == 'production':
+    #    app.config.from_object('config.ProductionConfig')
+    # else:
+    #    app.config.from_object('config.DevelopmentConfig')
 
     # flash를 위한 secret key 생성
     app.config["SECRET_KEY"] = "ABCD"
@@ -26,10 +40,8 @@ def create_app(config=None):
     
     # bp 생성 
     from usedcar_app.views.main_page import main_bp
-    from usedcar_app.views.dash_page import dash_bp
    
     app.register_blueprint(main_bp)
-    app.register_blueprint(dash_bp)
 
     return app
     
