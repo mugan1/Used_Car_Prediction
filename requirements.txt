@@ -32,11 +32,6 @@ pluggy==0.13.1
 psycopg2==2.9.5
 py==1.10.0
 pyparsing==2.4.7
-pytest==6.2.2
-pytest-flask==1.2.0
-pytest-json-report==1.2.4
-pytest-metadata==1.11.0
-pytest-submit @ git+https://github.com/aib-contents/pytest-submit-plugin@f8c2f67fb7bbe54d5842c2620d65cf75ded25369
 python-dateutil==2.8.1
 python-dotenv==0.21.0
 python-editor==1.0.4
