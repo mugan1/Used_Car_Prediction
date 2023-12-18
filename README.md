@@ -7,6 +7,7 @@
 - 기간  |  2021. 08 ~ 2021. 09
 - 담당 파트 |  개인프로젝트
 - 플랫폼 |  Python, Colab, FLASK
+- 웹 주소 | https://usedcar-haebing25.koyeb.app/
 
 ### Background & Goal
 
@@ -130,12 +131,9 @@
 
 ## XAI
 
-1.예측가격과 실제 가격의 차
+1. 예측가격과 실제 가격의 차
 
-<p align="center">
-  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/e4cc2822-e1e1-4136-a96d-77c34a029d2b" alt="text" width="number" />
-    <br>가격대가 높을수록 오차가 크게 나타나는 것을 확인할 수 있음
-</p>
+![가격대가 높을수록 오차가 크게 나타나는 것을 확인할 수 있음](https://github.com/mugan1/Used_Car_Prediction/assets/71809159/e4cc2822-e1e1-4136-a96d-77c34a029d2b)
     
 2. Feature Importance : 각각 특성을 모든 트리에 대해 평균불순도감소를 계산하는 방식
    
@@ -158,9 +156,34 @@
 </p> 
 - 테스트 10번 인덱스 데이터의 경우 주행거리, 배기량, 보험이력등록여부가 가격을 높이는 요인이며, 연식, 최대토크, 마력, 연료가 가격 낮추는 요인으로 작용함을 알 수 있음
 
+5. ok
+- 테스트 10번 인덱스 데이터의 경우 주행거리, 배기량, 보험이력등록여부가 가격을 높이는 요인이며, 연식, 최대토크, 마력, 연료가 가격 낮추는 요인으로 작용함을 알 수 있음   
 
+### Web Application
 
+- Framework |  FLASK
+- DB |  SQLITE3, POSTGRE(Elephant SQL)
+- Web Hosting | Koyeb
 
-[Project Portfolio Link] (https://www.notion.so/Used-Car-Price-Prediction-bd62a454e9774ce2a8c72cedd56350dc)
+### Layout
 
-[웹 애플리케이션 주소] (https://usedcar-haebing25.koyeb.app/)
+1. 사용자 입력화면 : 사용자 입력데이터와 모델 예측 결과는 Input Table DB에 저장됨
+   
+<p align="center">
+  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/17040b86-3608-411e-bf5c-b4cac2986ccb" alt="text" width="number" /><br>
+</p>   
+
+2. 대시보드 : 모델을 통해 예측한 가격과 관련 분석 정보를 확인할 수 있음
+
+<p align="center">
+  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/c9b24b46-8198-4e48-b6be-b80d67592608" alt="text" width="number" /><br>
+</p>  
+<p align="center">
+  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/fb88abd7-82af-4759-8a45-a41158870b4f" alt="text" width="number" /><br>
+</p>   
+
+### Conclusion
+
+- 직접 웹스크래핑으로 수집한 데이터를 분석하고 모델링하여 웹 애플리케이션으로 배포하는 프로젝트를 수행함으로써, ML 엔지니어링에 대한 이해를 한층 더 키울 수 있었음
+- 데이터량의 부족과 모델 하이퍼파라미터 최적화 문제, 변수 선택의 문제로 좋은 성능의 모델을 만들지 못했는데, 차후 수정을 통해 R2 Score 80% 이상의 모델을 구현하여 교체할 예정임
+
