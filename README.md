@@ -59,14 +59,15 @@
 ### Data Preprocessing
 
 1. Feature 제거
-    - 침수전손, 침수전손, 도난의 경우 대부분의 value가 0 : Feature 삭제
+- 침수전손, 침수전손, 도난의 경우 대부분의 value가 0 : Feature 삭제
 2. 이상치 제거
+
 <p align="center">
   <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/4c887399-6d01-4d6d-a0de-be736d691ddd" alt="text" width="number" />
   <br> 이상치 제거 전 Boxplot
 </p>
 
-선형회귀분석에서 가격, 연식, 주행거리 변수의 이상치가 MAE를 높이는 것으로 확인함 : 위의 세 변수에 대한 이상치를 IQR(Inter Quantile Range)방식으로 제거 
+- 선형회귀분석에서 가격, 연식, 주행거리 변수의 이상치가 MAE를 높이는 것으로 확인함: 위의 세 변수에 대한 이상치를 IQR(Inter Quantile Range)방식으로 제거 
 
 <p align="center">
   <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/89d2ec08-778e-48db-b840-33f5859a315b" alt="text" width="number" />
@@ -86,7 +87,6 @@
 2. 연속형 변수 간 상관관계 
 <p align="center">
   <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/2f2665b2-0e28-4604-985e-11013b9723ed" alt="text" width="number" />
-  <br> 우측으로 긴 꼬리를 가진 가격 분포
 </p>
 
   - 가격과 상관관계가 높은 변수는 연식, 주행거리가 음의 상관관계, 중량과 마력이 양의 상관관계를 가지고 있음 
@@ -146,6 +146,7 @@
 <p align="center">
   <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/38e14078-4f8b-425b-bbe3-a1ad345fa789" alt="text" width="number" /><br>
 </p>
+
 - 두 방식을 통해 연식, 주행거리, 마력, 배기량, 연비, 최대토크 정도가 모델 예측에 주요 변수로 작용하는 것을 확인
 - 데이터량의 부족과 11개의 변수만을 사용했기 때문에 모델의 성능이 많이 떨어짐. 추후 데이터 추가 확보와 최적화 과정을 통해 모델의 성능을 올릴 예정    
 
@@ -154,10 +155,8 @@
 <p align="center">
   <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/b372c7a2-a773-4efb-9426-6e6a5ce795b3" alt="text" width="number" /><br>
 </p> 
-- 테스트 10번 인덱스 데이터의 경우 주행거리, 배기량, 보험이력등록여부가 가격을 높이는 요인이며, 연식, 최대토크, 마력, 연료가 가격 낮추는 요인으로 작용함을 알 수 있음
 
-5. ok
-- 테스트 10번 인덱스 데이터의 경우 주행거리, 배기량, 보험이력등록여부가 가격을 높이는 요인이며, 연식, 최대토크, 마력, 연료가 가격 낮추는 요인으로 작용함을 알 수 있음   
+- 테스트 10번 인덱스 데이터의 경우 주행거리, 배기량, 보험이력등록여부가 가격을 높이는 요인이며, 연식, 최대토크, 마력, 연료가 가격 낮추는 요인으로 작용함을 알 수 있음
 
 ### Web Application
 
