@@ -130,32 +130,33 @@
 
 ## XAI
 
-1. 예측가격과 실제 가격의 차
+1.예측가격과 실제 가격의 차
 
 <p align="center">
-  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/e4cc2822-e1e1-4136-a96d-77c34a029d2b" alt="text" width="number" /><br>
-가격대가 높을수록 오차가 크게 나타나는 것을 확인할 수 있음
+  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/e4cc2822-e1e1-4136-a96d-77c34a029d2b" alt="text" width="number" />
+    <br>가격대가 높을수록 오차가 크게 나타나는 것을 확인할 수 있음
 </p>
-
+    
 2. Feature Importance : 각각 특성을 모든 트리에 대해 평균불순도감소를 계산하는 방식
    
 <p align="center">
-  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/ffaecaa3-bd8b-4e85-9405-b83d93a2aed6" alt="text" width="number" /><br>
+  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/ffaecaa3-bd8b-4e85-9405-b83d93a2aed6" alt="text" width="number" />
 </p>
 
 3. Permutation Importance : 관심있는 특성에만 무작위로 노이즈를 주고 예측을 하였을 때 성능 평가지표가 얼마나 감소하는 지 측정하는 방식
-   
+
 <p align="center">
   <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/38e14078-4f8b-425b-bbe3-a1ad345fa789" alt="text" width="number" /><br>
 </p>
 - 두 방식을 통해 연식, 주행거리, 마력, 배기량, 연비, 최대토크 정도가 모델 예측에 주요 변수로 작용하는 것을 확인
 - 데이터량의 부족과 11개의 변수만을 사용했기 때문에 모델의 성능이 많이 떨어짐. 추후 데이터 추가 확보와 최적화 과정을 통해 모델의 성능을 올릴 예정    
+
 4. SHAP
    
 <p align="center">
   <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/b372c7a2-a773-4efb-9426-6e6a5ce795b3" alt="text" width="number" /><br>
 </p> 
-테스트 10번 인덱스 데이터의 경우 주행거리, 배기량, 보험이력등록여부가 가격을 높이는 요인이며, 연식, 최대토크, 마력, 연료가 가격 낮추는 요인으로 작용함을 알 수 있음
+- 테스트 10번 인덱스 데이터의 경우 주행거리, 배기량, 보험이력등록여부가 가격을 높이는 요인이며, 연식, 최대토크, 마력, 연료가 가격 낮추는 요인으로 작용함을 알 수 있음
 
 
 
