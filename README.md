@@ -21,7 +21,7 @@
 - 보배드림 [Link](https://www.bobaedream.co.kr/) 에서 웹스크래핑을 통해 데이터 확보(코드 : 깃허브 내 webscrapping.py)
 - 데이터 Preprocessing 및 EDA 관련 코드 깃허브 colab파일로 업로드
 
-## Data Features
+### Data Features
 
 ```
 1. Data Shape : 1541 rows, 24 columns
@@ -101,7 +101,7 @@
   - 중고차 이름, 엔진형식, 색상의 경우 높은 cardinality로 모델의 성능을 떨어뜨릴 것으로 판단하며, 웹 애플리케이션에서 입력받기도 힘든 변수이기 때문에 활용 변수에서 삭제하기로 함 
 
    
-## Modeling(1차)
+### Modeling(1차)
 
 1차 모델 중 가장 좋은 성능을 보인 LightGBM을 최종 모델로 선택
 
@@ -109,27 +109,27 @@
 2. Linear Regression MAE : 3924783
 3. LightGBM Regressior MAE : 3102346
 
-## Feature Selection
+### Feature Selection
 
 사용자 입력화면에서 받을 데이터 수를 줄여야할 필요성이 있으므로 sklearn의 Select K-Best을 사용하여 주요 변수를 11개만 추출
 - Select K-Best : Feature Selection의 일종으로 Target 변수와의 상관관계를 계산하여 가장 중요하다고 판단되는 변수를 K개 산출하는 방식
 - 선택된 최종 변수 : 연식, 주행거리, 연료, 배기량, 마력, 최대토크, 제조사, 보증여부, 보험이력등록, 구동방식, 연비
   
-## LightGBM Modeling
+### LightGBM Modeling
 
 최종 모델인 LightGBM을 사용하여 최적화된 예측 결과를 찾아낼 예정
 - lightGBM : Gradient Boosting 모델 중 연산 속도가 빨라 웹 애플리케이션에 탑재하기 편리함
 - Gradient Boosting : 앙상블 알고리즘의 일종으로, Gradient(잔차)를 이용하여 이전 모형의 약점을 보완하는 새로운 모형을 순차적으로 적합한 뒤, 이들을 선형결합하여 얻어진 모형을 생성하는 지도학습 알고리즘 
 - RandomizedsearchCV : 최적화된 하이퍼파라미터를 찾는 메소드 
 
-## Result
+### Result
 
 훈련데이터 MAE:  4902909 / R2 Score : 0.56
 검증데이터 MAE:  5567629 / R2 Score : 0.42
 테스트데이터 MAE:  4893349 / R2 Score : 0.64
 - 데이터량의 부족과 11개의 변수만을 사용했기 때문에 모델의 성능이 많이 떨어짐. 추후 데이터 추가 확보와 최적화 과정을 통해 모델의 성능을 올릴 예정
 
-## XAI
+### XAI
 
 1. 예측가격과 실제 가격의 차
 
