@@ -58,42 +58,79 @@
 ### Data Preprocessing
 
 1. Feature 제거
-  - 침수전손, 침수전손, 도난의 경우 대부분의 value가 0 : Feature 삭제
+    - 침수전손, 침수전손, 도난의 경우 대부분의 value가 0 : Feature 삭제
 2. 이상치 제거
-(https://www.notion.so/Used-Car-Price-Prediction-bd62a454e9774ce2a8c72cedd56350dc?pvs=4#6132cb9fbd7241c4a159cd023c0caf9a)
+<p align="center">
+  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/4c887399-6d01-4d6d-a0de-be736d691ddd" alt="text" width="number" />
+  <br> 이상치 제거 전 Boxplot
+</p>
+
+선형회귀분석에서 가격, 연식, 주행거리 변수의 이상치가 MAE를 높이는 것으로 확인함 : 위의 세 변수에 대한 이상치를 IQR(Inter Quantile Range)방식으로 제거 
+
+<p align="center">
+  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/89d2ec08-778e-48db-b840-33f5859a315b" alt="text" width="number" />
+  <br> 이상치 제거 후 세 변수에 대한 Boxplot
+</p>
 
 
+### EDA
 
+1. 가격에 대한 Distplot
 
-### And coding style tests
+<p align="center">
+  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/c4c5dc5c-ad90-41eb-92b7-c2e4857f649b" alt="text" width="number" />
+  <br> 우측으로 긴 꼬리를 가진 가격 분포
+</p>
 
-Explain what these tests test and why
+2. 연속형 변수 간 상관관계 
+<p align="center">
+  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/2f2665b2-0e28-4604-985e-11013b9723ed" alt="text" width="number" />
+  <br> 우측으로 긴 꼬리를 가진 가격 분포
+</p>
 
-```
-Give an example
-```
+  - 가격과 상관관계가 높은 변수는 연식, 주행거리가 음의 상관관계, 중량과 마력이 양의 상관관계를 가지고 있음 
+  - 연식과 주행거리, 배기량과 마력 등이 높은 상관성을 지니고 있음. 다중공선성 문제가 발생할 수 있지만, 특성상호작용 문제를 잘 해결할 수 있는 트리 모델을 사용할 것이기 때문에 특성상호작용에 대해서는 고려하지 않기로 함
 
-## Deployment
+3. 범주형 변수 간 상관관계
+<p align="center">
+  <img src="https://github.com/mugan1/Used_Car_Prediction/assets/71809159/67857d7c-7f1c-4bc5-b068-6d84d5747afc" alt="text" width="number" />
+</p>
 
-Add additional notes about how to deploy this on a live system
+  - 가격과 범주형 변수간의 관계에서는 하이브리드 연료, 전륜 구동방식, 제네시스 제조사, 보증 가능, 보험이력 등록이 높은 가격을 형성하는 데에 영향을 미치는 것으로 확인됨
+  - 중고차 이름, 엔진형식, 색상의 경우 높은 cardinality로 모델의 성능을 떨어뜨릴 것으로 판단하며, 웹 애플리케이션에서 입력받기도 힘든 변수이기 때문에 활용 변수에서 삭제하기로 함 
 
-## Built With
+   
+## Modeling(1차)
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+1차 모델 중 가장 좋은 성능을 보인 LightGBM을 최종 모델로 선택
 
-## Contributing
+1. 기준모델(훈련 데이터 가격 평균) MAE : 8390594
+2. Linear Regression MAE : 3924783
+3. LightGBM Regressior MAE : 3102346
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+## Feature Selection
 
-## Versioning
+사용자 입력화면에서 받을 데이터 수를 줄여야할 필요성이 있으므로 sklearn의 Select K-Best을 사용하여 주요 변수를 11개만 추출
+- Select K-Best : Feature Selection의 일종으로 Target 변수와의 상관관계를 계산하여 가장 중요하다고 판단되는 변수를 K개 산출하는 방식
+- 선택된 최종 변수 : 연식, 주행거리, 연료, 배기량, 마력, 최대토크, 제조사, 보증여부, 보험이력등록, 구동방식, 연비
+  
+## LightGBM Modeling
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+최종 모델인 LightGBM을 사용하여 최적화된 예측 결과를 찾아낼 예정
+- lightGBM : Gradient Boosting 모델 중 연산 속도가 빨라 웹 애플리케이션에 탑재하기 편리함
+- Gradient Boosting : 앙상블 알고리즘의 일종으로, Gradient(잔차)를 이용하여 이전 모형의 약점을 보완하는 새로운 모형을 순차적으로 적합한 뒤, 이들을 선형결합하여 얻어진 모형을 생성하는 지도학습 알고리즘 
+- RandomizedsearchCV : 최적화된 하이퍼파라미터를 찾는 메소드 
 
-## Authors
+## Result
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+훈련데이터 MAE:  4902909 / R2 Score : 0.56
+검증데이터 MAE:  5567629 / R2 Score : 0.42
+테스트데이터 MAE:  4893349 / R2 Score : 0.64
+- 데이터량의 부족과 11개의 변수만을 사용했기 때문에 모델의 성능이 많이 떨어짐. 추후 데이터 추가 확보와 최적화 과정을 통해 모델의 성능을 올릴 예정
+
+## XAI
+
+1. 예측가격과 실제 가격의 차
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
